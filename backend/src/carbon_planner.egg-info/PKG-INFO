@@ -1,9 +1,0 @@
-Metadata-Version: 2.4
-Name: carbon-planner
-Version: 0.1.0
-Summary: Carbon Planner bootstrap project setup.
-Requires-Python: >=3.14
-Provides-Extra: dev
-Requires-Dist: pytest<9.0.0,>=8.3.0; extra == "dev"
-Requires-Dist: pytest-cov<7.0.0,>=6.1.0; extra == "dev"
-Requires-Dist: ruff<1.0.0,>=0.11.0; extra == "dev"
