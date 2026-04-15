@@ -58,7 +58,7 @@ This list should be kept current and checked by a human reviewer.
 - Lambda function: scheduled planner job
 - Lambda function: recommendation API handler
 - EventBridge rule/schedule: periodic planner trigger
-- DynamoDB table: recommendation snapshots
+- S3 bucket/object: recommendation snapshot (`recommendations/current.json`)
 - IAM role: planner job execution
 - IAM role: API execution
 - IAM policy attachments: least-privilege grants

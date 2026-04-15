@@ -10,7 +10,7 @@ This project must meet the following baseline controls.
 
 ## 1) Accurate asset inventories
 
-All AWS resources (S3 buckets, CloudFront distributions, API Gateway, Lambda, EventBridge, DynamoDB, IAM roles/policies, KMS keys, alarms) must be declared in infrastructure as code.
+All AWS resources (S3 buckets, CloudFront distributions, API Gateway, Lambda, EventBridge, IAM roles/policies, KMS keys, alarms) must be declared in infrastructure as code.
 
 Requirements:
 
@@ -36,7 +36,7 @@ Secure-by-default cloud configuration is required.
 Requirements:
 
 - S3 buckets: block public access unless explicitly needed and reviewed.
-- Encryption at rest enabled (S3, DynamoDB, logs where configurable).
+- Encryption at rest enabled (S3 and logs where configurable).
 - TLS enforced for all client-facing traffic.
 - Secrets stored in AWS Secrets Manager or SSM Parameter Store (never in code or plain env files committed to git).
 - Production and development environments must be logically separated.

@@ -28,7 +28,8 @@
 
 ### Data/API layer
 
-- DynamoDB table for latest recommendation snapshots (partition key by drying mode)
+- S3 bucket stores one JSON file containing the current recommendation snapshot
+- Object key convention: `recommendations/current.json`
 - API Gateway + Lambda (`planner_api`) for frontend reads:
   - `GET /recommendations?mode=indoor`
   - `GET /recommendations?mode=outdoor`
@@ -59,17 +60,20 @@
 
 ## Recommendation output model
 
-- `mode`: `indoor | outdoor`
+- `generated_modes`: includes both `indoor` and `outdoor` recommendations in one object
 - `generated_at_utc`: ISO8601
 - `valid_from_utc`: ISO8601
 - `valid_to_utc`: ISO8601
-- `windows`: array of:
-  - `start_utc`
-  - `end_utc`
-  - `overall_score` (0-100)
-  - `carbon_score` (0-100)
-  - `drying_score` (0-100, for outdoor; fixed baseline for indoor)
-  - `explanation` (short human-readable reason)
+- `recommendations`: object:
+  - `indoor.windows`: array of ranked windows
+  - `outdoor.windows`: array of ranked windows
+  - each window has:
+    - `start_utc`
+    - `end_utc`
+    - `overall_score` (0-100)
+    - `carbon_score` (0-100)
+    - `drying_score` (0-100, for outdoor; fixed baseline for indoor)
+    - `explanation` (short human-readable reason)
 
 ## Scoring strategy (MVP)
 
