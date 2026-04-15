@@ -6,24 +6,78 @@ Sources:
 * https://ce-knowledge-hub.iasme.co.uk/space/CEKH/2650538068/Securing+your+cloud+services
 * MITRE ATT&CK : https://attack.mitre.org/
 
-It is essential that we have the following things:
+This project must meet the following baseline controls.
 
-1. Accurate asset inventories
+## 1) Accurate asset inventories
 
-This means any AWS resources, including S3 buckets, and IAM roles, need to be listed out explicitly. It should be possible to create the whole project from scratch in a new AWS account with no existing IAM roles, only by changing the AWS account number.
+All AWS resources (S3 buckets, CloudFront distributions, API Gateway, Lambda, EventBridge, DynamoDB, IAM roles/policies, KMS keys, alarms) must be declared in infrastructure as code.
 
-2. Robust access controls
+Requirements:
 
-All IAM permissions should be least-privilege and scoped to the service that requires them. Detailed descriptions of all the permissions in IAM roles should be made available to the developer. They should also explain how aspects of IAM may interact, e.g. through assuming a role.
+- It must be possible to recreate the full stack in a fresh AWS account with environment variables only (for example account ID, region, environment name).
+- No manually created "hidden" runtime dependencies.
+- Maintain a short resource inventory document generated from IaC outputs.
 
-3. Secure configuration
+## 2) Robust access controls
 
-Set up computers securely to minimise ways that a cyber-criminal can find a way in. 
+IAM must follow least privilege by default.
 
-4. Comprehensive logging
+Requirements:
 
-There should be logs of when different resources are accessed, including calls to external services.
+- Separate execution roles per component (e.g., API Lambda vs scheduled job Lambda).
+- Policies must grant only required actions on specific resources; avoid `*` resources/actions unless justified and documented.
+- Any role assumption paths must be documented, including trust policies.
+- Human access should use short-lived credentials and MFA.
 
-5. Security update management
+## 3) Secure configuration
 
-We should use automated scanning services and tools like dependabot. These should then feed PRs, which run tests and are (maybe?) automatically merged as long as all tests pass.
+Secure-by-default cloud configuration is required.
+
+Requirements:
+
+- S3 buckets: block public access unless explicitly needed and reviewed.
+- Encryption at rest enabled (S3, DynamoDB, logs where configurable).
+- TLS enforced for all client-facing traffic.
+- Secrets stored in AWS Secrets Manager or SSM Parameter Store (never in code or plain env files committed to git).
+- Production and development environments must be logically separated.
+
+## 4) Comprehensive logging and detection
+
+Logging must support investigation and operational monitoring.
+
+Requirements:
+
+- CloudTrail enabled for account-level API activity.
+- CloudWatch logs for Lambda/API with retention period configured.
+- Log key security-relevant events: auth failures, permission denials, unexpected external API failures, data refresh failures.
+- Create alarms for repeated failures and stale recommendation data.
+- Include request IDs/correlation IDs for traceability.
+
+## 5) Vulnerability and update management
+
+Dependency and configuration drift must be monitored continuously.
+
+Requirements:
+
+- Enable Dependabot (or equivalent) for dependency updates.
+- Run dependency vulnerability scanning in CI.
+- Run static checks in CI (`ruff`, tests, and any security linters adopted).
+- Patch critical vulnerabilities with priority and track remediation in PRs/issues.
+- Auto-merge is allowed only for low-risk updates after all required checks pass.
+
+## 6) Data handling and privacy
+
+This project is low-PII by design; maintain that property.
+
+Requirements:
+
+- Do not collect personal user data unless explicitly required by a future feature.
+- If telemetry is added, aggregate/anonymize where possible.
+- Never log secrets, tokens, or sensitive headers.
+
+## 7) Supply-chain and CI/CD safeguards
+
+- Protect main branch with required status checks.
+- Require pull requests; no direct pushes to protected branches.
+- Use pinned actions/versions in CI where practical.
+- Restrict deployment credentials to the minimum required scope.
