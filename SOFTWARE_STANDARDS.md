@@ -9,7 +9,7 @@
 
 ## Language and project structure
 
-- Backend language: Python 3.12+
+- Backend language: Python 3.14+
 - Organize backend by responsibility:
   - `clients/` (external API integrations)
   - `domain/` (scoring rules and pure logic)

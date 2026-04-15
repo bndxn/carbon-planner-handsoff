@@ -47,6 +47,29 @@ The app should support two drying modes:
 - Coding and quality standards: `SOFTWARE_STANDARDS.md`
 - Security baseline and controls: `SECURITY.md`
 
+## AWS asset inventory (must exist in every environment)
+
+This list should be kept current and checked by a human reviewer.
+
+- S3 bucket: frontend static hosting
+- CloudFront distribution: frontend CDN and TLS
+- Route53 record(s): domain and routing (if custom domain used)
+- API Gateway API/stage: recommendation read endpoint
+- Lambda function: scheduled planner job
+- Lambda function: recommendation API handler
+- EventBridge rule/schedule: periodic planner trigger
+- DynamoDB table: recommendation snapshots
+- IAM role: planner job execution
+- IAM role: API execution
+- IAM policy attachments: least-privilege grants
+- CloudWatch log groups: Lambda/API logs
+- CloudWatch alarms: failures and stale data
+- CloudTrail trail: account API audit logs
+- KMS key(s): encryption where customer-managed keys are used
+- Secrets Manager secret(s) or SSM parameters: external API credentials/config
+- CI/CD identity/role: deployment permissions
+- IaC state backend resources: state bucket/lock table (if applicable)
+
 ## Definition of done (MVP)
 
 - Infrastructure deploys from scratch into a new AWS account

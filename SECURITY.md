@@ -16,7 +16,7 @@ Requirements:
 
 - It must be possible to recreate the full stack in a fresh AWS account with environment variables only (for example account ID, region, environment name).
 - No manually created "hidden" runtime dependencies.
-- Maintain a short resource inventory document generated from IaC outputs.
+- Maintain a comprehensive AWS resource inventory in `README.md`, with brief descriptions for human review.
 
 ## 2) Robust access controls
 
