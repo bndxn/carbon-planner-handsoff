@@ -77,3 +77,13 @@ This list should be kept current and checked by a human reviewer.
 - Frontend displays ranked recommendations with explanation metadata
 - CI runs linting, tests, and coverage gates
 - Documentation is sufficient for another engineer/agent to extend safely
+
+## Developer bootstrap
+
+The repository now includes initial scaffolding for:
+- backend code in `backend/`
+- frontend code in `frontend/`
+- infrastructure code in `infra/`
+- developer docs in `docs/`
+
+For local setup instructions, see `docs/local-setup.md`.
